@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📊 XAU/USD Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0d1117; color: white; text-align: center; margin-top: 100px; }
+    h1 { color: gold; }
+    .card { background: #161b22; padding: 20px; border-radius: 12px; width: 300px; margin: auto; }
+    .price { font-size: 2em; color: #00ff88; }
+  </style>
+</head>
+<body>
+  <h1>📈 XAU/USD Real-Time</h1>
+  <p>Harga emas dunia (update tiap 10 detik)</p>
+  <div class="card">
+    <div id="xau" class="price">Memuat...</div>
+  </div>
+
+  <script>
+    async function loadPrice() {
+      try {
+        const res = await fetch("https://api.exchangerate.host/latest?base=XAU&symbols=USD");
+        const data = await res.json();
+        document.getElementById("xau").innerText = (data.rates.USD * 1).toFixed(2) + " USD";
+      } catch {
+        document.getElementById("xau").innerText = "Gagal memuat data.";
+      }
+    }
+    loadPrice();
+    setInterval(loadPrice, 10000);
+  </script>
+</body>
+</html>
